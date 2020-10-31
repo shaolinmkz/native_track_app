@@ -1,36 +1,60 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Input, Button, Text } from "react-native-elements";
 import { View, StyleSheet } from "react-native";
-import Spacer from "../components/Spacer";
-import AuthContextInstance from '../context/AuthContext';
+import AuthContextInstance from "../context/AuthContext";
+import Spacer from "./Spacer";
+import { AUTH_ERROR } from "../actionTypes";
+import NavLink from "./NavLink";
 
-const SignupScreen = ({ navigation }) => {
+const AuthForm = ({
+  navigation,
+  heading,
+  linkText,
+  pageLink,
+  actionName,
+  btnText,
+}) => {
   const [{ email, password }, setState] = useState({
     email: "",
     password: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { actions, store: { errorMessage } } = useContext(AuthContextInstance.Context);
+  const {
+    actions,
+    store: { errorMessage },
+    dispatch,
+  } = useContext(AuthContextInstance.Context);
 
   const handleChange = ({ value, name }) => {
     setState((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = () => {
-    if(email && password) {
-      setIsSubmitting(true)
-      actions.signupAction({ email, password })
-      .then(() => {
+    if (email && password) {
+      setIsSubmitting(true);
+      actions[actionName]({ email, password }).then(() => {
         setIsSubmitting(false);
       });
     }
   };
 
+  useEffect(() => {
+    const listenerRef = navigation.addListener("didFocus", () => {
+      if (dispatch) {
+        dispatch({ type: AUTH_ERROR, payload: "" });
+      }
+    });
+
+    return () => {
+      listenerRef.remove();
+    };
+  }, []);
+
   return (
     <View style={styles.container}>
       <Spacer>
-        <Text h3>Sign Up for Tracker</Text>
+        <Text h3>{heading}</Text>
       </Spacer>
 
       <Input
@@ -51,19 +75,11 @@ const SignupScreen = ({ navigation }) => {
       />
       {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
       <Spacer>
-        <Button loading={isSubmitting} title="Sign Up" onPress={handleSubmit} />
+        <Button loading={isSubmitting} title={btnText} onPress={handleSubmit} />
       </Spacer>
-      {/* <Text style={{ fontSize: 48 }}>SignupScreen</Text>
-      <Button title="Go to Login" onPress={() => navigation.navigate('LoginScreen')} />
-      <Button title="Go to main flow" onPress={() => navigation.navigate('mainFlow')} /> */}
+      <NavLink linkText={linkText} pageLink={pageLink} />
     </View>
   );
-};
-
-SignupScreen.navigationOptions = () => {
-  return {
-    headerShown: false,
-  };
 };
 
 const styles = StyleSheet.create({
@@ -77,9 +93,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 15,
     marginTop: 15,
-    color: 'red',
-    textTransform: 'capitalize',
-  }
+    color: "red",
+    textTransform: "capitalize",
+  },
+  link: {
+    color: "blue",
+  },
 });
 
-export default SignupScreen;
+export default AuthForm;

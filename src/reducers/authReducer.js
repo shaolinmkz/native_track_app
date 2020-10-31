@@ -9,11 +9,6 @@ export const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case LOGIN:
-      return {
-        ...state,
-        isAuthenticated: true,
-        userData: payload,
-      };
     case SIGNUP:
       return {
         ...state,

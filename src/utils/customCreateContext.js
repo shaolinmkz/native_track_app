@@ -12,7 +12,7 @@ export default ({ reducer, actions, initialState }) => {
     }
 
     return (
-      <Context.Provider value={{ store, actions: boundActions }}>
+      <Context.Provider value={{ store, actions: boundActions, dispatch }}>
         {children}
       </Context.Provider>
     );

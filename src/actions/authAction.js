@@ -11,7 +11,7 @@ const signupAction = (dispatch) => (requestPayload) => {
       AsyncStorage.setItem("token", data.token).then(() => {
         dispatch({ type: SIGNUP, payload: data });
         navigate('TrackListScreen');
-      });
+      }).catch(err => err);;
     })
     .catch((error) => {
       dispatch({ type: AUTH_ERROR, payload: error.response.data.message });
@@ -22,8 +22,11 @@ const loginAction = (dispatch) => (requestPayload) => {
     dispatch({ type: AUTH_ERROR, payload: "" });
     return trackerApi
       .post("/login", requestPayload)
-      .then(({ data }) => {
-        dispatch({ type: LOGIN, payload: data.data });
+      .then(({ data: { data } }) => {
+        AsyncStorage.setItem("token", data.token).then(() => {
+          dispatch({ type: LOGIN, payload: data });
+          navigate('TrackListScreen');
+        }).catch(err => err);
       })
       .catch((error) => {
         dispatch({ type: AUTH_ERROR, payload: error.response.data.message });
