@@ -1,6 +1,16 @@
 import AsyncStorage from "@react-native-community/async-storage";
 
 export const localStore = {
+  save: (key, value) =>
+  new Promise((resolve, reject) => {
+    AsyncStorage.setItem(key, value, (err) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(value);
+      }
+    });
+  }),
   find: () =>
     new Promise((resolve, reject) => {
       AsyncStorage.getAllKeys((err, keys) => {
@@ -27,7 +37,7 @@ export const localStore = {
       });
     }),
   removeOne: (key = "") =>
-    Promise((resolve, reject) => {
+    new Promise((resolve, reject) => {
       AsyncStorage.removeItem(key, () => {
         resolve(null);
       });

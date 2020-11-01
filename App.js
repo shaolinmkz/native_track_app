@@ -12,20 +12,40 @@ import TrackDetailsScreen from "./src/screens/TrackDetailsScreen";
 import TrackListScreen from "./src/screens/TrackListScreen";
 import { setNavigator } from "./src/utils/navigationRef";
 
-const switchNavigator = createSwitchNavigator({
-  loginFlow: createStackNavigator({
-    SignupScreen,
-    LoginScreen,
-  }),
-  mainFlow: createBottomTabNavigator({
-    trackListFlow: createStackNavigator({
-      TrackListScreen,
-      TrackDetailsScreen,
-    }),
-    TrackCreateScreen,
-    AccountScreen,
-  }),
-});
+const switchNavigator = createSwitchNavigator(
+  {
+    loginFlow: createStackNavigator(
+      {
+        LoginScreen,
+        SignupScreen,
+      },
+      {
+        initialRouteName: "LoginScreen",
+      }
+    ),
+    mainFlow: createBottomTabNavigator(
+      {
+        trackListFlow: createStackNavigator(
+          {
+            TrackListScreen,
+            TrackDetailsScreen,
+          },
+          {
+            initialRouteName: "TrackListScreen",
+          }
+        ),
+        TrackCreateScreen,
+        AccountScreen,
+      },
+      {
+        initialRouteName: "trackListFlow",
+      }
+    ),
+  },
+  {
+    initialRouteName: "loginFlow",
+  }
+);
 
 const App = createAppContainer(switchNavigator);
 

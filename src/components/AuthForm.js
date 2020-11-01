@@ -1,23 +1,26 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Input, Button, Text } from "react-native-elements";
 import { View, StyleSheet } from "react-native";
+import { NavigationEvents } from "react-navigation";
 import AuthContextInstance from "../context/AuthContext";
 import Spacer from "./Spacer";
-import { AUTH_ERROR } from "../actionTypes";
 import NavLink from "./NavLink";
+import { CLEAR_AUTH_ERROR } from "../actionTypes";
 
 const AuthForm = ({
-  navigation,
   heading,
   linkText,
   pageLink,
   actionName,
   btnText,
+  autoOutScreen,
+  navigation,
 }) => {
-  const [{ email, password }, setState] = useState({
+  const initState = {
     email: "",
     password: "",
-  });
+  };
+  const [{ email, password }, setState] = useState(initState);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -32,27 +35,33 @@ const AuthForm = ({
 
   const handleSubmit = () => {
     if (email && password) {
+      dispatch({ type: CLEAR_AUTH_ERROR })
       setIsSubmitting(true);
-      actions[actionName]({ email, password }).then(() => {
+      actions[actionName]({ email, password })
+      .then((data) => {
         setIsSubmitting(false);
+        if(data) {
+          setState(initState);
+          navigation.navigate('trackListFlow');
+        }
       });
     }
   };
 
-  useEffect(() => {
-    const listenerRef = navigation.addListener("didFocus", () => {
-      if (dispatch) {
-        dispatch({ type: AUTH_ERROR, payload: "" });
-      }
-    });
+  const clearError = () => {
+    if (errorMessage?.length) {
+      actions.clearAuthError();
+    }
+  };
 
-    return () => {
-      listenerRef.remove();
-    };
+
+  useEffect(() => {
+    actions.autoLoginUser(autoOutScreen);
   }, []);
 
   return (
     <View style={styles.container}>
+      <NavigationEvents onWillBlur={clearError} onWillFocus={clearError} />
       <Spacer>
         <Text h3>{heading}</Text>
       </Spacer>
@@ -78,6 +87,7 @@ const AuthForm = ({
         <Button loading={isSubmitting} title={btnText} onPress={handleSubmit} />
       </Spacer>
       <NavLink linkText={linkText} pageLink={pageLink} />
+      <NavLink linkText="trackListFlow" pageLink="trackListFlow" />
     </View>
   );
 };
@@ -85,7 +95,6 @@ const AuthForm = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignContent: "center",
     justifyContent: "center",
     marginBottom: 50,
   },
