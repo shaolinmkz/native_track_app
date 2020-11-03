@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import MapView, { Polyline } from "react-native-maps";
 import LocationContext from "../context/LocationContext";
 
@@ -18,9 +18,10 @@ const TrackDetailsScreen = ({ navigation }) => {
     <>
       <Text
         style={{
-          fontSize: 30,
+          fontSize: 20,
           textAlign: "center",
           textTransform: "capitalize",
+          marginVertical: 15,
         }}
       >
         {track.name}
