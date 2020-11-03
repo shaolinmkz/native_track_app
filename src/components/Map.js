@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import MapView, { Polyline, Circle } from "react-native-maps";
 
-const Map = ({ coordinates, initialRegion, region, showRegion }) => {
+const Map = ({ currentLocation, coordinates, initialRegion, region, showRegion }) => {
   const restProps = {};
 
   if(showRegion) {
@@ -17,7 +17,10 @@ const Map = ({ coordinates, initialRegion, region, showRegion }) => {
     >
       {/* {coordinates?.length ? <Polyline coordinates={coordinates} /> : null} */}
       <Circle
-        center={coordinates[coordinates?.length - 1]}
+        center={{
+          longitude: currentLocation?.coords?.longitude,
+          latitude: currentLocation?.coords?.latitude,
+        }}
         radius={30}
         strokeColor="rgb(158, 158, 255)"
         fillColor="rgba(158, 158, 255, 0.3)"

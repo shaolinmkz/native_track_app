@@ -20,11 +20,20 @@ const TrackCreateScreen = ({ isFocused }) => {
     return <ActivityIndicator size="large" style={{ marginTop: 200 }} />;
   }
 
+  const handleRecording = () => {
+    if(isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  }
+
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <Text style={{ fontSize: 40, textAlign: "center" }}> Create Track</Text>
       <Map
         coordinates={coordinates}
+        currentLocation={currentLocation}
         initialRegion={{
           ...currentLocation.coords,
           latitudeDelta: 0.01,
@@ -38,7 +47,7 @@ const TrackCreateScreen = ({ isFocused }) => {
         showRegion
       />
       {err ? <Text style={styles.error}>{err}</Text> : null}
-      <TrackForm name={name} isRecording={isRecording} handleChange={setName} />
+      <TrackForm handleRecording={handleRecording} name={name} isRecording={isRecording} handleChange={setName} />
     </SafeAreaView>
   );
 };
