@@ -9,14 +9,11 @@ const LoginScreen = ({ navigation }) => (
     pageLink="SignupScreen"
     actionName="loginAction"
     btnText="Login"
-    autoOutScreen="LoginScreen"
   />
 );
 
-LoginScreen.navigationOptions = () => {
-  return {
+LoginScreen.navigationOptions = {
     headerShown: false,
-  };
 };
 
 export default LoginScreen;

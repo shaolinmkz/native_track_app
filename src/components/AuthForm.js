@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Input, Button, Text } from "react-native-elements";
 import { View, StyleSheet } from "react-native";
 import { NavigationEvents } from "react-navigation";
@@ -6,6 +6,7 @@ import AuthContextInstance from "../context/AuthContext";
 import Spacer from "./Spacer";
 import NavLink from "./NavLink";
 import { CLEAR_AUTH_ERROR } from "../actionTypes";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const AuthForm = ({
   heading,
@@ -13,7 +14,6 @@ const AuthForm = ({
   pageLink,
   actionName,
   btnText,
-  autoOutScreen,
   navigation,
 }) => {
   const initState = {
@@ -25,7 +25,7 @@ const AuthForm = ({
 
   const {
     actions,
-    store: { errorMessage },
+    store: { errorMessage, token },
     dispatch,
   } = useContext(AuthContextInstance.Context);
 
@@ -42,7 +42,7 @@ const AuthForm = ({
         setIsSubmitting(false);
         if(data) {
           setState(initState);
-          navigation.navigate('trackListFlow');
+          // navigation.replace('TrackListScreen');
         }
       });
     }
@@ -54,10 +54,15 @@ const AuthForm = ({
     }
   };
 
-
-  useEffect(() => {
-    actions.autoLoginUser(autoOutScreen);
-  }, []);
+  const checkStorage = () => {
+    AsyncStorage.getItem('token', (err, result) => {
+      if(err) {
+        console.log('err', err)
+      } else {
+        console.log('result', result)
+      }
+    });
+  }
 
   return (
     <View style={styles.container}>
@@ -86,8 +91,10 @@ const AuthForm = ({
       <Spacer>
         <Button loading={isSubmitting} title={btnText} onPress={handleSubmit} />
       </Spacer>
+      <Spacer>
+        <Button title="CHECK" onPress={checkStorage} />
+      </Spacer>
       <NavLink linkText={linkText} pageLink={pageLink} />
-      <NavLink linkText="trackListFlow" pageLink="trackListFlow" />
     </View>
   );
 };

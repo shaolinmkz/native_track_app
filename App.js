@@ -1,56 +1,49 @@
 import React from "react";
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import "react-native-gesture-handler";
+import { createAppContainer, createSwitchNavigator, SafeAreaView } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import AuthContextInstance from "./src/context/AuthContext";
-
-import AccountScreen from "./src/screens/AccountScreen";
-import LoginScreen from "./src/screens/LoginScreen";
-import SignupScreen from "./src/screens/SignupScreen";
-import TrackCreateScreen from "./src/screens/TrackCreateScreen";
-import TrackDetailsScreen from "./src/screens/TrackDetailsScreen";
-import TrackListScreen from "./src/screens/TrackListScreen";
+import screens from "./src/screens";
 import { setNavigator } from "./src/utils/navigationRef";
 
-const switchNavigator = createSwitchNavigator(
-  {
-    loginFlow: createStackNavigator(
-      {
-        LoginScreen,
-        SignupScreen,
-      },
-      {
-        initialRouteName: "LoginScreen",
-      }
-    ),
-    mainFlow: createBottomTabNavigator(
-      {
-        trackListFlow: createStackNavigator(
-          {
-            TrackListScreen,
-            TrackDetailsScreen,
-          },
-          {
-            initialRouteName: "TrackListScreen",
-          }
-        ),
-        TrackCreateScreen,
-        AccountScreen,
-      },
-      {
-        initialRouteName: "trackListFlow",
-      }
-    ),
-  },
-  {
-    initialRouteName: "loginFlow",
-  }
-);
+const {
+  AccountScreen,
+  LoginScreen,
+  SignupScreen,
+  TrackCreateScreen,
+  TrackDetailsScreen,
+  TrackListScreen,
+} = screens;
+
+const AuthStack = createStackNavigator({
+  LoginScreen,
+  SignupScreen,
+});
+
+const AppStack = createBottomTabNavigator({
+  trackList: createStackNavigator({
+    TrackListScreen,
+    TrackDetailsScreen,
+  }),
+  TrackCreateScreen,
+  AccountScreen,
+});
+
+const switchNavigator = createSwitchNavigator({
+  authFlow: AuthStack,
+  mainFlow: AppStack,
+},
+{
+  initialRouteName: 'authFlow'
+});
 
 const App = createAppContainer(switchNavigator);
 
 export default () => (
   <AuthContextInstance.Provider>
-    <App ref={(navigator) => setNavigator(navigator)} />
+    <SafeAreaView style={{ flex: 1 }}>
+      <App ref={(navigator) => setNavigator(navigator)} />
+    </SafeAreaView>
   </AuthContextInstance.Provider>
 );

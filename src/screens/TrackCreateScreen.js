@@ -7,4 +7,10 @@ const TrackCreateScreen = () => {
 
 const styles = StyleSheet.create({});
 
+TrackCreateScreen.navigationOptions = () => {
+  return {
+    headerShown: false,
+  };
+};
+
 export default TrackCreateScreen;

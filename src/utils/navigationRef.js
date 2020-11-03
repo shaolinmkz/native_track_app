@@ -1,14 +1,14 @@
 import { NavigationActions } from "react-navigation";
 
-let navigator;
+let _navigator;
 
 export const setNavigator = (nav) => {
-  navigator = nav;
+  _navigator = nav;
 };
 
 export const navigate = (routeName, params) => {
-  if (navigator) {
-    navigator.dispatch(
+  if (_navigator) {
+    _navigator.dispatch(
       NavigationActions.navigate({
         routeName,
         params,

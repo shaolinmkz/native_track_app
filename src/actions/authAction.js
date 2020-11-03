@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import trackerApi from "../api/trackerApi";
 import {
   LOGIN,
@@ -8,19 +9,20 @@ import {
   CLEAR_AUTH_ERROR,
 } from "../actionTypes";
 import { navigate } from "../utils/navigationRef";
-import { localStore } from "../utils/localStorage";
+
 
 const clearAuthError = (dispatch) => () => {
   dispatch({ type: CLEAR_AUTH_ERROR });
 };
 
-const signupAction = (dispatch) => (requestPayload) => {
+const signupAction = (dispatch) => async (requestPayload) => {
   return trackerApi
     .post("/signup", requestPayload)
     .then(({ data: { data } }) =>
-      localStore.save("token", data.token).then(() => {
+    AsyncStorage.setItem("token", String(data.token))
+    .then(() => {
         dispatch({ type: SIGNUP, payload: data.token });
-        // navigate("trackListFlow");
+        navigate("TrackListScreen");
         return data;
       })
     )
@@ -29,46 +31,45 @@ const signupAction = (dispatch) => (requestPayload) => {
     });
 };
 
-const loginAction = (dispatch) => (requestPayload) => {
+const loginAction = (dispatch) => async (requestPayload) => {
   return trackerApi
     .post("/login", requestPayload)
-    .then(({ data: { data } }) =>
-      localStore
-        .save("token", data.token)
-        .then(() => {
-          dispatch({ type: LOGIN, payload: data.token });
-          // navigate("trackListFlow");
-          return data;
-        })
-    )
+    .then(({ data: { data } }) => {
+      AsyncStorage.setItem("token", String(data.token))
+      .then(() => {
+        dispatch({ type: LOGIN, payload: data.token });
+        AsyncStorage.getItem('token').then(console.log);
+        navigate("TrackListScreen");
+        return data;
+      })
+    })
     .catch((error) => {
-      dispatch({ type: AUTH_ERROR, payload: error.response.data.message });
+      console.log(error)
+      dispatch({ type: AUTH_ERROR, payload: error?.response?.data?.message });
     });
 };
 
 const autoLoginUser = (dispatch) => async (pageLink) => {
-  const token = await localStore.findOne("token");
-
-  console.log("()()()(TOKEN)()()() =>", token);
+  const token = await AsyncStorage.getItem("token");
 
   if (token) {
     dispatch({ type: SET_TOKEN, payload: token });
-    navigate("trackListFlow");
+    navigate("TrackListScreen");
   } else {
     navigate(pageLink);
   }
 };
 
-const logoutAction = (dispatch = async () => {
-  const data = await localStore.removeOne("token");
-  dispatch({ type: LOGOUT, payload: data });
-  navigate("loginFlow");
-});
+export const logoutAction = (dispatch) => {
+  AsyncStorage.removeItem('token').then(() => {
+    dispatch({ type: LOGOUT });
+    navigate("LoginScreen");
+  })
+};
 
 export default {
   signupAction,
   loginAction,
-  logoutAction,
   autoLoginUser,
   clearAuthError,
 };
