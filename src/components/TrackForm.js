@@ -2,7 +2,14 @@ import React from "react";
 import { Button, Input } from "react-native-elements";
 import { StyleSheet, View } from "react-native";
 
-export default ({ isRecording, handleChange, name, handleRecording }) => (
+export default ({
+  isRecording,
+  handleChange,
+  name,
+  handleRecording,
+  handleSubmit,
+  locations,
+}) => (
   <>
     <View
       style={{
@@ -25,6 +32,17 @@ export default ({ isRecording, handleChange, name, handleRecording }) => (
         marginHorizontal: 10,
       }}
     />
+
+    {!isRecording && locations?.length && (
+      <Button
+        title="Save"
+        onPress={handleSubmit}
+        style={{
+          marginHorizontal: 10,
+          marginTop: 15,
+        }}
+      />
+    )}
   </>
 );
 

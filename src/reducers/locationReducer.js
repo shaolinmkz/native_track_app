@@ -1,10 +1,20 @@
-import { START_RECORDING, STOP_RECORDING, ADD_LOCATION } from "../actionTypes";
+import {
+  START_RECORDING,
+  STOP_RECORDING,
+  ADD_LOCATION,
+  CREATE_TRACK,
+  GET_TRACKS,
+  GET_TRACK,
+  DELETE_TRACK,
+} from "../actionTypes";
 
 export const initialState = {
   isRecording: false,
   coordinates: [],
   locations: [],
   currentLocation: null,
+  tracks: [],
+  track: null,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -37,6 +47,28 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         isRecording: false,
+      };
+    case CREATE_TRACK:
+      return {
+        ...state,
+        locations: [],
+        coordinates: [],
+        tracks: [payload, ...state.tracks],
+      };
+    case GET_TRACKS:
+      return {
+        ...state,
+        tracks: payload,
+      };
+    case GET_TRACK:
+      return {
+        ...state,
+        track: payload,
+      };
+    case DELETE_TRACK:
+      return {
+        ...state,
+        tracks: state.tracks.filter((data) => data._id !== payload),
       };
     default:
       return state;

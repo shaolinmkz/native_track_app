@@ -4,7 +4,6 @@ import {
   watchPositionAsync,
   Accuracy,
 } from "expo-location";
-import { generateMockLocation } from "../utils/__mocks__/mockLocation";
 
 export default (shouldTrack, callback) => {
   const [err, setErr] = useState("");
@@ -17,8 +16,8 @@ export default (shouldTrack, callback) => {
     if (subscriber) {
       subscriber.remove();
       setSubcriber(null);
-      if(mockLocalRef && isDevelopment) {
-        clearInterval(mockLocalRef)
+      if (mockLocalRef && isDevelopment) {
+        clearInterval(mockLocalRef);
         setMockLocalref(null);
       }
     }
@@ -31,6 +30,7 @@ export default (shouldTrack, callback) => {
         throw new Error("Location permission not granted");
       } else if (!mockLocalRef) {
         if (isDevelopment) {
+          const { generateMockLocation } = require('../utils/__mocks__/mockLocation');
           const ref = generateMockLocation();
           setMockLocalref(ref);
         }
@@ -62,5 +62,5 @@ export default (shouldTrack, callback) => {
     return handleUnsubscribe;
   }, [shouldTrack]);
 
-  return [err];
+  return [err, { handleUnsubscribe, startWatching }];
 };

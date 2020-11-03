@@ -9,30 +9,43 @@ import TrackForm from "../components/TrackForm";
 const TrackCreateScreen = ({ isFocused }) => {
   const {
     store: { isRecording, locations, coordinates, currentLocation },
-    actions: { startRecording, stopRecording, addLocation },
+    actions: { startRecording, stopRecording, addLocation, createTrack },
   } = useContext(LocationContext.Context);
 
   const [name, setName] = useState("");
 
-  const [err] = useLocation(isFocused, addLocation);
+  const [err, { handleUnsubscribe, startWatching }] = useLocation(
+    [isFocused, isRecording].includes(true),
+    addLocation
+  );
 
   if (!currentLocation) {
     return <ActivityIndicator size="large" style={{ marginTop: 200 }} />;
   }
 
   const handleRecording = () => {
-    if(isRecording) {
+    if (isRecording) {
+      handleUnsubscribe();
       stopRecording();
     } else {
+      startWatching();
       startRecording();
     }
-  }
+  };
+
+  const handleSubmit = () => {
+    createTrack({
+      name,
+      locations,
+    });
+  };
 
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <Text style={{ fontSize: 40, textAlign: "center" }}> Create Track</Text>
       <Map
         coordinates={coordinates}
+        locations={locations}
         currentLocation={currentLocation}
         initialRegion={{
           ...currentLocation.coords,
@@ -45,9 +58,17 @@ const TrackCreateScreen = ({ isFocused }) => {
           longitudeDelta: 0.01,
         }}
         showRegion
+        isRecording={isRecording}
       />
-      {err ? <Text style={styles.error}>{err}</Text> : null}
-      <TrackForm handleRecording={handleRecording} name={name} isRecording={isRecording} handleChange={setName} />
+      {!!err && <Text style={styles.error}>{err}</Text>}
+      <TrackForm
+        handleSubmit={handleSubmit}
+        handleRecording={handleRecording}
+        name={name}
+        isRecording={isRecording}
+        locations={locations}
+        handleChange={setName}
+      />
     </SafeAreaView>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import MapView, { Polyline, Circle } from "react-native-maps";
 
-const Map = ({ currentLocation, coordinates, initialRegion, region, showRegion }) => {
+const Map = ({ currentLocation, locations, initialRegion, region, showRegion, isRecording }) => {
   const restProps = {};
 
   if(showRegion) {
@@ -15,7 +15,7 @@ const Map = ({ currentLocation, coordinates, initialRegion, region, showRegion }
       initialRegion={initialRegion}
       {...restProps}
     >
-      {/* {coordinates?.length ? <Polyline coordinates={coordinates} /> : null} */}
+      {(!!locations?.length && isRecording) && <Polyline coordinates={locations.map(({ coords }) => coords)} />}
       <Circle
         center={{
           longitude: currentLocation?.coords?.longitude,

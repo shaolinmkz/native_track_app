@@ -10,3 +10,9 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const START_RECORDING = 'START_RECORDING';
 export const STOP_RECORDING = 'STOP_RECORDING';
 export const ADD_LOCATION = 'ADD_LOCATION';
+
+// Tracks
+export const CREATE_TRACK = 'CREATE_TRACK';
+export const GET_TRACKS = 'GET_TRACKS';
+export const GET_TRACK = 'GET_TRACK';
+export const DELETE_TRACK = 'DELETE_TRACK';
