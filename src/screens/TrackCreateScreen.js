@@ -6,12 +6,13 @@ import LocationContext from "../context/LocationContext";
 import useLocation from "../hooks/useLocation";
 import TrackForm from "../components/TrackForm";
 
-const TrackCreateScreen = ({ isFocused }) => {
+const TrackCreateScreen = ({ isFocused, navigation }) => {
   const {
     store: { isRecording, locations, coordinates, currentLocation },
     actions: { startRecording, stopRecording, addLocation, createTrack },
   } = useContext(LocationContext.Context);
 
+  const [isSaving, setIsSaving] = useState(false);
   const [name, setName] = useState("");
 
   const [err, { handleUnsubscribe, startWatching }] = useLocation(
@@ -33,11 +34,12 @@ const TrackCreateScreen = ({ isFocused }) => {
     }
   };
 
-  const handleSubmit = () => {
-    createTrack({
-      name,
-      locations,
-    });
+  const handleSubmit = async () => {
+    setIsSaving(true);
+    await createTrack({ name, locations });
+    setName("");
+    setIsSaving(false);
+    navigation?.navigate?.("TrackListScreen");
   };
 
   return (
@@ -68,6 +70,7 @@ const TrackCreateScreen = ({ isFocused }) => {
         isRecording={isRecording}
         locations={locations}
         handleChange={setName}
+        isSaving={isSaving}
       />
     </SafeAreaView>
   );

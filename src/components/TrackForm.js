@@ -9,6 +9,7 @@ export default ({
   handleRecording,
   handleSubmit,
   locations,
+  isSaving,
 }) => (
   <>
     <View
@@ -33,9 +34,10 @@ export default ({
       }}
     />
 
-    {!isRecording && locations?.length && (
+    {!isRecording && !!locations?.length && !!name && (
       <Button
         title="Save"
+        loading={isSaving}
         onPress={handleSubmit}
         style={{
           marginHorizontal: 10,

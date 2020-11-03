@@ -5,7 +5,7 @@ const tenMetersWithDegres = 0.0001;
 
 const getLocation = increment => {
   return {
-    timestamp: new Date().getUTCMilliseconds(),
+    timestamp: new Date().toISOString(),
     coords: {
       speed: 0,
       heading: 0,
