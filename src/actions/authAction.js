@@ -38,7 +38,6 @@ const loginAction = (dispatch) => async (requestPayload) => {
       AsyncStorage.setItem("token", String(data.token))
       .then(() => {
         dispatch({ type: LOGIN, payload: data.token });
-        AsyncStorage.getItem('token').then(console.log);
         navigate("TrackListScreen");
         return data;
       })

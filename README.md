@@ -68,3 +68,10 @@ Run the command below on your CLI
 ```
 
 https://react-native-async-storage.github.io/async-storage/docs/usage/
+
+## Installing maps
+
+Run
+
+`npx expo-cli install react-native-maps`
+

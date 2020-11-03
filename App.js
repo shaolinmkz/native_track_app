@@ -1,6 +1,6 @@
 import React from "react";
 import "react-native-gesture-handler";
-import { createAppContainer, createSwitchNavigator, SafeAreaView } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import AuthContextInstance from "./src/context/AuthContext";
@@ -30,20 +30,20 @@ const AppStack = createBottomTabNavigator({
   AccountScreen,
 });
 
-const switchNavigator = createSwitchNavigator({
-  authFlow: AuthStack,
-  mainFlow: AppStack,
-},
-{
-  initialRouteName: 'authFlow'
-});
+const switchNavigator = createSwitchNavigator(
+  {
+    authFlow: AuthStack,
+    mainFlow: AppStack,
+  },
+  {
+    initialRouteName: "authFlow",
+  }
+);
 
 const App = createAppContainer(switchNavigator);
 
 export default () => (
   <AuthContextInstance.Provider>
-    <SafeAreaView style={{ flex: 1 }}>
-      <App ref={(navigator) => setNavigator(navigator)} />
-    </SafeAreaView>
+    <App ref={(navigator) => setNavigator(navigator)} />
   </AuthContextInstance.Provider>
 );

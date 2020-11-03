@@ -14,7 +14,6 @@ const AuthForm = ({
   pageLink,
   actionName,
   btnText,
-  navigation,
 }) => {
   const initState = {
     email: "",
@@ -25,7 +24,7 @@ const AuthForm = ({
 
   const {
     actions,
-    store: { errorMessage, token },
+    store: { errorMessage },
     dispatch,
   } = useContext(AuthContextInstance.Context);
 
@@ -42,7 +41,6 @@ const AuthForm = ({
         setIsSubmitting(false);
         if(data) {
           setState(initState);
-          // navigation.replace('TrackListScreen');
         }
       });
     }
@@ -53,16 +51,6 @@ const AuthForm = ({
       actions.clearAuthError();
     }
   };
-
-  const checkStorage = () => {
-    AsyncStorage.getItem('token', (err, result) => {
-      if(err) {
-        console.log('err', err)
-      } else {
-        console.log('result', result)
-      }
-    });
-  }
 
   return (
     <View style={styles.container}>
@@ -90,9 +78,6 @@ const AuthForm = ({
       {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
       <Spacer>
         <Button loading={isSubmitting} title={btnText} onPress={handleSubmit} />
-      </Spacer>
-      <Spacer>
-        <Button title="CHECK" onPress={checkStorage} />
       </Spacer>
       <NavLink linkText={linkText} pageLink={pageLink} />
     </View>

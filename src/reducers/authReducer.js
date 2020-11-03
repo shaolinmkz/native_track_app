@@ -22,6 +22,8 @@ export default (state = initialState, { type, payload }) => {
       const data = {};
       if ([LOGIN, SIGNUP, SET_TOKEN].includes(type)) {
         data.token = payload;
+      } else if (LOGOUT === type) {
+        data.token = "";
       }
       return {
         ...state,

@@ -21,6 +21,8 @@ const AuthLayout = ({
     if (jwtToken) {
       dispatch({ type: SET_TOKEN, payload: jwtToken });
       navigation.navigate("TrackListScreen");
+    } else {
+      navigation.navigate("authFlow");
     }
   };
 
