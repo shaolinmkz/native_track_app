@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 
 const TrackDetailsScreen = () => {
-    return <Text style={{ fontSize: 48 }}> TracDetailsScreen</Text>;
+    return <Text style={{ fontSize: 30, textAlign: 'center' }}> TracK Details</Text>;
 };
 
 TrackDetailsScreen.navigationOptions = () => {

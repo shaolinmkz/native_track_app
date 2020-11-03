@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { SafeAreaView, withNavigationFocus } from "react-navigation";
-import { Text, StyleSheet, ActivityIndicator } from "react-native";
+import { Text, StyleSheet, ActivityIndicator, View } from "react-native";
 import Map from "../components/Map";
 import LocationContext from "../context/LocationContext";
 import useLocation from "../hooks/useLocation";
@@ -21,7 +21,11 @@ const TrackCreateScreen = ({ isFocused, navigation }) => {
   );
 
   if (!currentLocation) {
-    return <ActivityIndicator size="large" style={{ marginTop: 200 }} />;
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
   }
 
   const handleRecording = () => {
@@ -59,7 +63,7 @@ const TrackCreateScreen = ({ isFocused, navigation }) => {
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}
-        showRegion
+        showRegion={isRecording}
         isRecording={isRecording}
       />
       {!!err && <Text style={styles.error}>{err}</Text>}

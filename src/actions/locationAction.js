@@ -35,7 +35,7 @@ const createTrack = (dispatch) => async (payload) => {
 const getTracks = (dispatch) => async () => {
   try{
     const { data: { data } } = await trackerApi.get('/tracks');
-    dispatch({ type: GET_TRACKS, payload: data });
+    dispatch({ type: GET_TRACKS, payload: data?.reverse?.() });
     return data;
   } catch (err) {
     return err
