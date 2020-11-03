@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
-import { EvilIcons } from "@expo/vector-icons";
+import { EvilIcons, FontAwesome5 } from "@expo/vector-icons";
 import LocationContext from "../context/LocationContext";
 
 const TrackListScreen = ({ navigation }) => {
@@ -16,7 +16,7 @@ const TrackListScreen = ({ navigation }) => {
     actions: { getTracks, deleteTrack },
   } = useContext(LocationContext.Context);
 
-  const [loading, setIsLoading] = useState(false);
+  const [loading, setIsLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
   const [trackId, setTrackId] = useState("");
 
@@ -45,12 +45,15 @@ const TrackListScreen = ({ navigation }) => {
   ) : (
     <>
       <Text style={{ fontSize: 30, textAlign: "center" }}> Track Lists</Text>
-      {!!tracks?.length && (
+      {!!tracks?.length ? (
         <FlatList
           data={tracks}
           keyExtractor={({ _id }) => _id}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('TrackDetailsScreen')}>
+            <TouchableOpacity
+              style={styles.card}
+              onPress={() => navigation.navigate("TrackDetailsScreen", { _id: item._id })}
+            >
               <Text style={{ fontSize: 16 }}>{item.name}</Text>
               <TouchableOpacity onPress={() => handleDelete(item._id)}>
                 <EvilIcons
@@ -62,23 +65,29 @@ const TrackListScreen = ({ navigation }) => {
             </TouchableOpacity>
           )}
         />
+      ) : (
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <FontAwesome5 name="folder-open" size={150} color="black" />
+        </View>
       )}
     </>
   );
 };
 
 TrackListScreen.navigationOptions = {
-    headerShown: false
+  headerShown: false,
 };
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 10,
     paddingVertical: 5,
     marginTop: 10,
-    alignItems: 'center',
-    justifyContent: 'space-between'
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 });
 
