@@ -19,10 +19,8 @@ const AccountScreen = () => {
   );
 };
 
-AccountScreen.navigationOptions = () => {
-  return {
-    headerShown: false,
-  };
+AccountScreen.navigationOptions = {
+  headerShown: false,
 };
 
 const styles = StyleSheet.create({});

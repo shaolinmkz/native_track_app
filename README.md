@@ -69,9 +69,26 @@ Run the command below on your CLI
 
 https://react-native-async-storage.github.io/async-storage/docs/usage/
 
-## Installing maps
 
-Run
+---
+
+## Maps
+
+Run this to install Expo Map
 
 `npx expo-cli install react-native-maps`
 
+
+Run this to install Expo Location
+
+`npx expo-cli install expo-location`
+
+#### How to reset location permissions
+
+- iOS Simulator: Settings > General > Reset > Reset Location and Privacy
+
+- Android Emulator:  RUN `adb sheel pm reset-permissions` at the terminal
+
+- iOS Device: Settings > Expo > Toggle permissions (note this doesn't actually **reset** permissions)
+
+- Android Device: Different based on Android version. Do a google search
