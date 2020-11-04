@@ -1,5 +1,7 @@
 # Native Track App
 
+👉🏽 [VIEW APP HERE](https://expo.io/@shaolinmkz/projects/native-track-app) 👈🏽
+
 ## Setting up an expo app
 
 1. Run `npx expo-cli init <APP_NAME_GOES_HERE> --npm`
