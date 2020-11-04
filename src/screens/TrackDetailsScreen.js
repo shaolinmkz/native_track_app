@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, SafeAreaView } from "react-native";
 import MapView, { Polyline } from "react-native-maps";
 import LocationContext from "../context/LocationContext";
 
@@ -15,13 +15,14 @@ const TrackDetailsScreen = ({ navigation }) => {
   const initialCoords = track.locations[0].coords;
 
   return (
-    <>
+    <SafeAreaView forceInset={{ top: "always" }}>
       <Text
         style={{
           fontSize: 20,
           textAlign: "center",
           textTransform: "capitalize",
-          marginVertical: 15,
+          paddingVertical: 10,
+          marginTop: 30
         }}
       >
         {track.name}
@@ -38,7 +39,7 @@ const TrackDetailsScreen = ({ navigation }) => {
       >
         <Polyline coordinates={track.locations.map((loc) => loc.coords)} />
       </MapView>
-    </>
+    </SafeAreaView>
   );
 };
 
