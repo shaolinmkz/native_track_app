@@ -94,3 +94,7 @@ Run this to install Expo Location
 - iOS Device: Settings > Expo > Toggle permissions (note this doesn't actually **reset** permissions)
 
 - Android Device: Different based on Android version. Do a google search
+
+### How to publish app
+
+- [CLICK HERE](https://instabug.com/blog/react-native-app-ios-android/)
