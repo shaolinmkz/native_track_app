@@ -1,4 +1,4 @@
-# Native Track App
+# Native Tracker (Test App)
 
 👉🏽 [VIEW APP HERE](https://expo.io/@shaolinmkz/projects/native-track-app) 👈🏽
 
