@@ -4,13 +4,14 @@ import {
   watchPositionAsync,
   Accuracy,
 } from "expo-location";
+import env from '../utils/environment';
 
 export default (shouldTrack, callback) => {
   const [err, setErr] = useState("");
   const [mockLocalRef, setMockLocalref] = useState(null);
   const [subscriber, setSubcriber] = useState(null);
 
-  const isDevelopment = process.env.NODE_ENV === "development";
+  const isDevelopment = env.NODE_ENV === "development";
 
   const handleUnsubscribe = () => {
     if (subscriber) {
