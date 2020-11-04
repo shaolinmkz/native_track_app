@@ -3,6 +3,7 @@ import "react-native-gesture-handler";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
+import { FontAwesome } from '@expo/vector-icons';
 import AuthContextInstance from "./src/context/AuthContext";
 import LocationContextInstance from "./src/context/LocationContext";
 import screens from "./src/screens";
@@ -23,10 +24,18 @@ const AuthStack = createStackNavigator({
 });
 
 const AppStack = createBottomTabNavigator({
-  trackList: createStackNavigator({
-    TrackListScreen,
-    TrackDetailsScreen,
-  }),
+  trackList: createStackNavigator(
+    {
+      TrackListScreen,
+      TrackDetailsScreen,
+    },
+    {
+      navigationOptions: {
+        title: "Tracks",
+        tabBarIcon: <FontAwesome name="list" size={20} color="black" />
+      },
+    }
+  ),
   TrackCreateScreen,
   AccountScreen,
 });

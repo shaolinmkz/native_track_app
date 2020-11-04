@@ -23,7 +23,7 @@ const TrackCreateScreen = ({ isFocused, navigation }) => {
   if (!currentLocation) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#5597c8" />
       </View>
     );
   }
@@ -48,7 +48,7 @@ const TrackCreateScreen = ({ isFocused, navigation }) => {
 
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
-      <Text style={{ fontSize: 40, textAlign: "center" }}> Create Track</Text>
+      <Text style={{ fontSize: 25, textAlign: "center", paddingVertical: 10, }}> Create Track</Text>
       <Map
         coordinates={coordinates}
         locations={locations}
@@ -91,10 +91,8 @@ const styles = StyleSheet.create({
   },
 });
 
-TrackCreateScreen.navigationOptions = () => {
-  return {
-    headerShown: false,
-  };
+TrackCreateScreen.navigationOptions = {
+  title: 'Add Track',
 };
 
 export default withNavigationFocus(TrackCreateScreen);

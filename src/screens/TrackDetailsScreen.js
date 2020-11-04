@@ -42,10 +42,8 @@ const TrackDetailsScreen = ({ navigation }) => {
   );
 };
 
-TrackDetailsScreen.navigationOptions = () => {
-  return {
-    headerShown: false,
-  };
+TrackDetailsScreen.navigationOptions = {
+  headerShown: false,
 };
 
 const styles = StyleSheet.create({});

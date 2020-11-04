@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Button,
   ActivityIndicator,
+  SafeAreaView,
 } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { EvilIcons, FontAwesome5 } from "@expo/vector-icons";
@@ -40,11 +41,11 @@ const TrackListScreen = ({ navigation }) => {
 
   return loading ? (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator  size="large" color="#5597c8" />
     </View>
   ) : (
-    <>
-      <Text style={{ fontSize: 30, textAlign: "center" }}> Track Lists</Text>
+    <SafeAreaView forceInset={{ top: "always" }}>
+      <Text style={{ fontSize: 25, textAlign: "center", paddingVertical: 10, marginTop: 30 }}>Track Lists</Text>
       {!!tracks?.length ? (
         <FlatList
           data={tracks}
@@ -72,12 +73,12 @@ const TrackListScreen = ({ navigation }) => {
           <FontAwesome5 name="folder-open" size={150} color="black" />
         </View>
       )}
-    </>
+    </SafeAreaView>
   );
 };
 
 TrackListScreen.navigationOptions = {
-  headerShown: false,
+  headerShown: false
 };
 
 const styles = StyleSheet.create({
